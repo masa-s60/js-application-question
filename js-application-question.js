@@ -82,11 +82,14 @@ const displayNewQuestion = (questions) => {
 }
 
 const displayQuestion = async () => {
-  const promise = await fetch('https://opentdb.com/api.php?amount=10', {method: 'GET'});
-  if(promise.ok) {
-    const questionsObject = promise.json();
-    console.log(typeof questionsObject);
-    displayNewQuestion(questionsObject.results);
+  try {
+    const response = await fetch('https://opentdb.com/api.php?amount=10', {method: 'GET'});
+    if(response.ok) {
+      const questionObject = await response.json();
+      displayNewQuestion(questionObject.results);  
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -95,17 +98,4 @@ startButton.addEventListener('click', () => {
   questionArea.textContent = '少々お待ちください';
   startButton.remove();
   displayQuestion();
-  // fetch('https://opentdb.com/api.php?amount=10', {method: 'GET'})
-  // .then(Response => {
-  //   console.log (Response);
-  //   if(Response.ok) {
-  //     Response.json()
-  //     .then(responseObject => {
-  //       displayNewQuestion(responseObject.results);
-  //     });
-  //   }
-  // })
-  // .catch((e) => {
-  //   header.textContent = 'エラー';
-  // });
 });
