@@ -84,17 +84,14 @@ const displayNewQuestion = (questions) => {
 const displayQuestion = async () => {
   try {
     const response = await fetch('https://opentdb.com/api.php?amount=10', {method: 'GET'});
-    if(response.ok) {
-      const questionObject = await response.json();
-      displayNewQuestion(questionObject.results);  
-    }
+    const questionObject = await response.json();
+    displayNewQuestion(questionObject.results);
   } catch (error) {
     console.log(error);
   }
 }
 
 startButton.addEventListener('click', () => {
-  header.textContent = '取得中';
   questionArea.textContent = '少々お待ちください';
   startButton.remove();
   displayQuestion();
